@@ -3,13 +3,13 @@ public class Point {
     private int Y;
 
     public Point() {
-        X = 0;
-        Y = 0;
+        this.X = 0;
+        this.Y = 0;
     }
 
     public Point(int x, int y) {
-        X = x;
-        Y = y;
+        this.X = x;
+        this.Y = y;
     }
 
     public int getX() {
@@ -21,11 +21,11 @@ public class Point {
     }
 
     public void setX(int x) {
-        X = x;
+        this.X = x;
     }
 
     public void setY(int y) {
-        Y = y;
+        this.Y = y;
     }
 
     @Override

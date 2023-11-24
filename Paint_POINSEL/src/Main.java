@@ -1,10 +1,20 @@
+import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.print("Hello world\n");
+        System.out.println("Hello world!");
 
-        for (String a : args) {
-            System.out.println(a);
-        }
+/*
+        Runnable UIwindow = () -> {
+            Window mainWindow = new Window();
+            mainWindow.show();
+        };
+        SwingUtilities.invokeLater(UIwindow);
+
+        JPanel southPanel = new JPanel();
+
+
+ */
+
     }
 }

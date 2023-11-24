@@ -1,15 +1,16 @@
-import javax.swing.*;
 import java.awt.*;
 
 public class Rectangle extends Figure {
 
-    public Rectangle(Color color, Point origin) {
-        super(color, origin);
+    public Rectangle(Color color, int px, int py) {
+        super(color, new Point(px, py));
+        setBoundingBox(0, 0);
     }
 
     @Override
-    public void setBoundingBox(int heightBB, int widthBB) {
-        this.boundingBox = new int[]{this.origin.getX() + heightBB, this.origin.getY() + widthBB};
+    public void setBoundingBox(int h, int w) {
+        this.height=h;
+        this.width=w;
     }
 
     @Override
@@ -19,12 +20,12 @@ public class Rectangle extends Figure {
 
     @Override
     public double getPerimeter() {
-        return 2*this.width + 2*this.length;
+        return 2*this.width + 2*this.height;
     }
 
     @Override
     public double getSurface() {
-        return this.width * this.length;
+        return this.width * this.height;
     }
 
 

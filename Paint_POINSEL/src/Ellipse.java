@@ -3,8 +3,10 @@ import java.awt.*;
 public class Ellipse extends Figure {
 
     protected int diameter;
-    public Ellipse(Color color, Point origin, int diameter) {
-        super(color, origin);
+
+    public Ellipse(Color color, int px, int py, int diameter) {
+        super(color, new Point(px, py));
+        setBoundingBox(0, 0);
         this.diameter = diameter;
     }
 
@@ -42,8 +44,8 @@ public class Ellipse extends Figure {
 
     @Override
     public double getSurface() {
-        // Pi * width/2 * length/2
-        return 0.78539816 * this.diameter * this.diameter;
+        //je ne sais plus en fait
+        return 1;
     }
 
 
