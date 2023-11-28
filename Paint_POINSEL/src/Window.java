@@ -62,11 +62,11 @@ public class Window extends JFrame {
         JMenuItem open = new JMenuItem("Open");
         menu1.add(open);
         m.add(menu1);
+        setJMenuBar(m);
 
         JButton okButton = new JButton("Que viva ENSEA !");
         contentPanel.add(okButton, BorderLayout.CENTER);
 
-        this.pack();
         this.setVisible(true);
     }
 
