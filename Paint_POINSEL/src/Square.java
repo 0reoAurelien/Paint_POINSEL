@@ -14,6 +14,7 @@ public class Square extends Rectangle {
     @Override
     public void setBoundingBox(int h, int w) {
         // On impose une forme carrée en ne retenant que la longueur du côté
+        // Pour des tracés plus précis avec la souris, on choisit de garder le plus petit coté
         side = Math.min(h, w);
         this.height = side;
         this.width = side;
@@ -32,5 +33,10 @@ public class Square extends Rectangle {
     @Override
     public double getSurface() {
         return this.side * this.side;
+    }
+    @Override
+    public Figure createCopy(Color c, Point p) {
+        Square copy = new Square(c, p.getX(),p.getY());
+        return copy;
     }
 }

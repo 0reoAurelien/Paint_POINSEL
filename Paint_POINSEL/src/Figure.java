@@ -36,4 +36,6 @@ public abstract class Figure {
                 '}';
     }
 
+    public abstract Figure createCopy(Color color, Point origin);
+
 }

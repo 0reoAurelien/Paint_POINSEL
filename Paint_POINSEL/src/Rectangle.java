@@ -28,5 +28,11 @@ public class Rectangle extends Figure {
         return this.width * this.height;
     }
 
+    @Override
+    public Figure createCopy(Color c, Point p) {
+        Rectangle copy = new Rectangle(c, p.getX(),p.getY());
+        return copy;
+    }
+
 
 }

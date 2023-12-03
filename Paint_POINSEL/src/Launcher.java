@@ -1,16 +1,10 @@
+import javax.swing.*;
+
 public class Launcher {
 
-    public static void main(String[] args){
-        StudentPromotion p = new StudentPromotion();
-        StudentGroup a = null;
-        try {
-            a= new StudentGroup("1G1TD1TP1");
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-        p.addGroup(a);
-        
+    public static void main(String args[]) {
+        SwingUtilities.invokeLater(() -> {
+            Window win = new Window("Paint it black", 800, 600);
+        });
     }
 }

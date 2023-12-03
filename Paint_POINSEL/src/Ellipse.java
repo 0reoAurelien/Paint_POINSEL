@@ -2,12 +2,10 @@ import java.awt.*;
 
 public class Ellipse extends Figure {
 
-    protected int diameter;
 
-    public Ellipse(Color color, int px, int py, int diameter) {
+    public Ellipse(Color color, int px, int py) {
         super(color, new Point(px, py));
         setBoundingBox(0, 0);
-        this.diameter = diameter;
     }
 
     @Override
@@ -48,5 +46,10 @@ public class Ellipse extends Figure {
         return 1;
     }
 
+    @Override
+    public Figure createCopy(Color c, Point p) {
+        Ellipse copy = new Ellipse(c, p.getX(),p.getY());
+        return copy;
+    }
 
 }
