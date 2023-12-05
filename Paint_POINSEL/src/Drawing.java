@@ -36,19 +36,25 @@ public class Drawing extends JPanel implements MouseListener, MouseMotionListene
     }
 
     public void saveToFile() throws Exception {
-        /*
-        File folder = new File("/drawingFolder");
-        if (!folder.exists()) {
-            folder.mkdirs();
-        }
-        */
-        // Pas encore réussi à créer un dossier de sauvegarde automatiquement
 
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("drawingFolder\\sauveDessin"))) {
+        try {
+
+            File folder = new File("drawingFolder");
+            if (!folder.exists()) {
+                folder.mkdirs();
+            }
+
+            FileOutputStream fos = new FileOutputStream("drawingFolder"+File.separator+"sauveDessin");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+
             oos.writeInt(figures.size());
             for (Figure f : figures) {
                 oos.writeObject(f);
             }
+            oos.close();
+        }
+        catch (Exception e) {
+            throw new Exception(e);
         }
     }
 
@@ -56,20 +62,23 @@ public class Drawing extends JPanel implements MouseListener, MouseMotionListene
     public void loadFromFile() throws RuntimeException {
         figures.clear(); // l'importantion écrase le dessin actuel
 
-        try (
-                FileInputStream fis = new FileInputStream("/drawingFolder/sauveDessin");
-                ObjectInputStream ois = new ObjectInputStream(fis);
-        ) {
+        try {
+            /*
+            FileInputStream fis = new FileInputStream("drawingFolder"+File.separator+"sauveDessin");
+
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
             int size = ois.readInt();
             for (int i = 0; i < size; i++) {
                 Figure fig = (Figure) ois.readObject();
                 figures.add(fig);
             }
+            */
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new RuntimeException("Error loading from file", e);
         }
-
         repaint();
     }
 
