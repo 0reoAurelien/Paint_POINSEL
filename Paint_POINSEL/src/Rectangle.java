@@ -4,18 +4,21 @@ public class Rectangle extends Figure {
 
     public Rectangle(Color color, int px, int py) {
         super(color, new Point(px, py));
-        setBoundingBox(0, 0);
     }
 
     @Override
-    public void setBoundingBox(int h, int w) {
-        this.height=h;
-        this.width=w;
+    public void setBoundingBox(int mouseX, int mouseY) {
+        this.width=mouseX-this.getOrigin().getX();
+        this.height=mouseY-this.getOrigin().getY();
+        sortCoordinates();
     }
+
+
 
     @Override
     public void draw(Graphics g) {
-
+        g.setColor(getColor());
+        g.fillRect(this.getOrigin().getX(), this.getOrigin().getY(), width, height);
     }
 
     @Override

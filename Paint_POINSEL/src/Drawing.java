@@ -1,49 +1,37 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class Drawing extends JPanel {
+public class Drawing extends JPanel implements MouseListener {
     private Color currentColor;
     private Figure currentFigure;
     private ArrayList<Figure> figures;
+    protected static boolean isDrawing = false;
 
     public Drawing() {
         this.setBackground(Color.white);
-        this.currentColor = Color.black;
-        this.currentFigure = new Rectangle(Color.black, 0, 0); // Rectangle par défaut
+        currentColor = Color.black;
+        currentFigure = new Rectangle(Color.black, 0, 0); // Rectangle par défaut
         this.figures = new ArrayList<>();
-
-        addMouseListener(new MyMouseListener());
-
     }
 
-    public void setCurrentColor(Color color) {
-        this.currentColor = color;
+    public void setCurrentColor(Color color) { //Action liée aux boutons de couleurs
+        currentColor = color;
     }
 
     public Color getColor() {
-        return this.currentColor;
+        return currentColor;
     }
 
-    public void setCurrentFigure(Figure figure) {
-        this.currentFigure = figure;
+    public void setCurrentFigure(Figure figure) { //Action liée aux boutons de figures
+        currentFigure = figure;
     }
 
-    private class MyMouseListener extends MouseAdapter {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            System.out.println("L'utilisateur a cliqué sur " + e.getPoint());
-            int mouseX = e.getX();
-            int mouseY = e.getY();
-            Figure newFigure = currentFigure.createCopy(currentColor, new Point(mouseX, mouseY));
-
-            figures.add(newFigure);
-
-            repaint();
-        }
-    }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -51,5 +39,43 @@ public class Drawing extends JPanel {
         for (Figure figure : figures) {
             figure.draw(g);
         }
+    }
+
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        System.out.println("The user clicked " + e.getPoint());
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+
+        if (isDrawing){
+            this.currentFigure.setBoundingBox(mouseX, mouseY);
+            this.figures.add(this.currentFigure);
+            repaint();
+        }
+        else{
+            this.currentFigure = this.currentFigure.createCopy(this.currentColor, new Point(mouseX, mouseY));
+        }
+        isDrawing = !isDrawing;
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }

@@ -18,13 +18,20 @@ public abstract class Figure {
     public Point getOrigin() {
         return origin;
     }
-
-    public abstract void setBoundingBox (int height, int width);
-
+    public void sortCoordinates(){  //modifie Origin pour avoir toujours Height et Width positives
+        if (this.width<0) {
+            this.width= -this.width;
+            this.origin.setX(this.origin.getX()-width);
+        }
+        if (this.height<0) {
+            this.height= -this.height;
+            this.origin.setY(this.origin.getY()-height);
+        }
+    }
+    public abstract void setBoundingBox (int mouseX, int mouseY);
 
     public abstract void draw (Graphics g);
-    public abstract double getPerimeter ();
-    public abstract double getSurface ();
+
 
     @Override
     public String toString() {
@@ -37,5 +44,8 @@ public abstract class Figure {
     }
 
     public abstract Figure createCopy(Color color, Point origin);
+
+    public abstract double getPerimeter();
+    public abstract double getSurface();
 
 }

@@ -5,17 +5,19 @@ public class Ellipse extends Figure {
 
     public Ellipse(Color color, int px, int py) {
         super(color, new Point(px, py));
-        setBoundingBox(0, 0);
     }
 
     @Override
-    public void setBoundingBox(int heightBB, int widthBB) {
-
+    public void setBoundingBox(int mouseX, int mouseY) {
+        this.width=mouseX-this.getOrigin().getX();
+        this.height=mouseY-this.getOrigin().getY();
+        sortCoordinates();
     }
 
     @Override
     public void draw(Graphics g) {
-
+        g.setColor(getColor());
+        g.fillOval(this.getOrigin().getX(), this.getOrigin().getY(), width, height);
     }
 
     @Override
