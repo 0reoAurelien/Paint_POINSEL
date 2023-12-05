@@ -2,15 +2,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.Serial;
+import java.io.*;
 import java.util.ArrayList;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+// bibliothèques pour sauvegarder le fichier
+import java.util.ArrayList;
+import java.util.List;
 
 public class Drawing extends JPanel implements MouseListener, MouseMotionListener {
     private Color currentColor;
     private Figure currentFigure;
-    private ArrayList<Figure> figures;
+    protected ArrayList<Figure> figures;
     protected static boolean isDrawing = false;
 
     public Drawing() {
@@ -30,6 +33,49 @@ public class Drawing extends JPanel implements MouseListener, MouseMotionListene
 
     public void setCurrentFigure(Figure figure) { //Action liée aux boutons de figures
         currentFigure = figure;
+    }
+
+    public void saveToFile() throws Exception {
+        /*
+        File folder = new File("/drawingFolder");
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+        */
+        // Pas encore réussi à créer un dossier de sauvegarde automatiquement
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("drawingFolder\\sauveDessin"))) {
+            oos.writeInt(figures.size());
+            for (Figure f : figures) {
+                oos.writeObject(f);
+            }
+        }
+    }
+
+
+    public void loadFromFile() throws RuntimeException {
+        figures.clear(); // l'importantion écrase le dessin actuel
+
+        try (
+                FileInputStream fis = new FileInputStream("/drawingFolder/sauveDessin");
+                ObjectInputStream ois = new ObjectInputStream(fis);
+        ) {
+            int size = ois.readInt();
+            for (int i = 0; i < size; i++) {
+                Figure fig = (Figure) ois.readObject();
+                figures.add(fig);
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error loading from file", e);
+        }
+
+        repaint();
+    }
+
+    public void clearFile() {
+        figures.clear(); // l'importantion écrase le dessin actuel
+        repaint();
     }
 
 
@@ -110,4 +156,5 @@ public class Drawing extends JPanel implements MouseListener, MouseMotionListene
     public void mouseMoved(MouseEvent e) {
 
     }
+
 }

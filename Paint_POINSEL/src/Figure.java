@@ -1,6 +1,7 @@
 import java.awt.*;
+import java.io.Serializable;
 
-public abstract class Figure {
+public abstract class Figure implements Serializable {
     private final Color color;  //this.color = new Color(0,0,0); // un entier entre 0 et 255 pour chaque couleur RGB
     protected final Point origin;
     protected int width;

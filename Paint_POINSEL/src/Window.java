@@ -2,6 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+
+
 public class Window extends JFrame implements ActionListener {
     private Drawing drawingPanel;
 
@@ -112,11 +116,23 @@ public class Window extends JFrame implements ActionListener {
         JMenuBar m = new JMenuBar();
 
         JMenu menu1 = new JMenu("File");
-        JMenuItem open = new JMenuItem("Open");
+        JMenuItem open = new JMenuItem("Open saved file");
         JMenuItem about = new JMenuItem("About/Authors");
+        JMenuItem save = new JMenuItem("Save Project");
+        JMenuItem export = new JMenuItem("Export to PNG");
+        JMenuItem newDrawing = new JMenuItem("Clear Screen");
+
         about.addActionListener(this);
+        save.addActionListener(this);
+        open.addActionListener(this);
+        export.addActionListener(this);
+        newDrawing.addActionListener(this);
+
+        menu1.add(newDrawing);
         menu1.add(open);
         menu1.add(about);
+        menu1.add(save);
+        menu1.add(export);
         m.add(menu1);
         setJMenuBar(m);
 
@@ -196,9 +212,44 @@ public class Window extends JFrame implements ActionListener {
 
             case "About/Authors":
                 JOptionPane.showMessageDialog(this,
-                        "Authors:\nAurélien POINSEL\nIn collaboration with Internet\nSpecial thanks to Tauvel and ChatGPT",
+                        "Authors:\nAurélien POINSEL\nIn collaboration with Internet\nSpecial thanks to Tauvel and ChatGPT.",
                         "About/Authors",
                         JOptionPane.INFORMATION_MESSAGE);
+
+            case "Save Project":
+                try{
+                    drawingPanel.saveToFile();
+                }
+                catch (Exception ew){
+                    JOptionPane.showMessageDialog(this,
+                            "You tried to save your file but an error occurred.",
+                            "Saving error",
+                            JOptionPane.INFORMATION_MESSAGE);
+                    System.out.println("Problemos !");
+                }
+                break;
+            case "Export to PNG":
+                JOptionPane.showMessageDialog(this,
+                        "Come on, you don't really wanna do this...\nPress Win+Shift+S to take a screenshot",
+                        "Export to PNG",
+                        JOptionPane.INFORMATION_MESSAGE);
+                break;
+
+            case "Open saved file":
+                try{
+                    drawingPanel.loadFromFile();
+                }
+                catch (Exception ew){
+                    JOptionPane.showMessageDialog(this,
+                            "You tried to load a saved file but an error occurred.",
+                            "Loading file error",
+                            JOptionPane.INFORMATION_MESSAGE);
+                    System.out.println("Problemos !");
+                }
+                break;
+
+            case "Clear Screen":
+                drawingPanel.clearFile();
                 break;
 
             default:
