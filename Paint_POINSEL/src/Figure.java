@@ -6,8 +6,7 @@ public abstract class Figure implements Serializable {
     protected final Point origin;
     protected int width;
     protected int height;
-    protected int perimeter;
-    protected int area;
+
 
     public Figure(Color color, Point origin) {
         this.color = color;

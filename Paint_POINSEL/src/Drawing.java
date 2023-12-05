@@ -38,23 +38,25 @@ public class Drawing extends JPanel implements MouseListener, MouseMotionListene
     public void saveToFile() throws Exception {
 
         try {
-
+            // Création d'un dossier de sauvegarde s'il n'existe pas encore
             File folder = new File("drawingFolder");
             if (!folder.exists()) {
                 folder.mkdirs();
             }
 
-            FileOutputStream fos = new FileOutputStream("drawingFolder"+File.separator+"sauveDessin");
+            // Création du fichier qui contiendra la sauvegarde
+            FileOutputStream fos = new FileOutputStream("drawingFolder"+File.separator+"saveDrawing");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-
+            // Ecriture dans le fichier de la taille de la liste de figures
             oos.writeInt(figures.size());
+            // Ecriture dans le fichier de la liste des figures
             for (Figure f : figures) {
                 oos.writeObject(f);
             }
-            oos.close();
+            oos.close(); // fin d'écriture dans le fichier
         }
         catch (Exception e) {
-            throw new Exception(e);
+            throw new Exception(e); //renvoie une exception qui sera traitée dans la classe Window.java
         }
     }
 
@@ -63,8 +65,8 @@ public class Drawing extends JPanel implements MouseListener, MouseMotionListene
         figures.clear(); // l'importantion écrase le dessin actuel
 
         try {
-            /*
-            FileInputStream fis = new FileInputStream("drawingFolder"+File.separator+"sauveDessin");
+
+            FileInputStream fis = new FileInputStream("drawingFolder"+File.separator+"saveDrawing");
 
             ObjectInputStream ois = new ObjectInputStream(fis);
 
@@ -73,7 +75,7 @@ public class Drawing extends JPanel implements MouseListener, MouseMotionListene
                 Figure fig = (Figure) ois.readObject();
                 figures.add(fig);
             }
-            */
+
 
         }
         catch (Exception e) {
@@ -138,18 +140,8 @@ public class Drawing extends JPanel implements MouseListener, MouseMotionListene
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-
-    @Override
     public void mouseDragged(MouseEvent e) {
-        System.out.println("The user clicked " + e.getPoint());
+/*
         int mouseX = e.getX();
         int mouseY = e.getY();
 
@@ -158,12 +150,30 @@ public class Drawing extends JPanel implements MouseListener, MouseMotionListene
             this.figures.add(this.currentFigure);
             repaint();
         }
+
+ */
     }
 
 
     @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+    }
+
+    @Override
     public void mouseMoved(MouseEvent e) {
 
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+
+        if (isDrawing){
+            this.currentFigure.setBoundingBox(mouseX, mouseY);
+            this.figures.add(this.currentFigure);
+            repaint();
+        }
     }
 
 }
