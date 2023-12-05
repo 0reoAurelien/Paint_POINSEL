@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class Drawing extends JPanel implements MouseListener {
+public class Drawing extends JPanel implements MouseListener, MouseMotionListener {
     private Color currentColor;
     private Figure currentFigure;
     private ArrayList<Figure> figures;
@@ -44,12 +44,28 @@ public class Drawing extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        /*
+        System.out.println("The user clicked " + e.getPoint());
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+        if (!isDrawing){
+            this.currentFigure = this.currentFigure.createCopy(this.currentColor, new Point(mouseX, mouseY));
+        }
+        isDrawing = !isDrawing;
 
+         */
+        // not compatible yet with a mouse drag
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        System.out.println("The user clicked " + e.getPoint());
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+        if(!isDrawing) {
+            this.currentFigure = this.currentFigure.createCopy(this.currentColor, new Point(mouseX, mouseY));
+            isDrawing = true;
+        }
     }
 
     @Override
@@ -62,11 +78,8 @@ public class Drawing extends JPanel implements MouseListener {
             this.currentFigure.setBoundingBox(mouseX, mouseY);
             this.figures.add(this.currentFigure);
             repaint();
+            isDrawing = false;
         }
-        else{
-            this.currentFigure = this.currentFigure.createCopy(this.currentColor, new Point(mouseX, mouseY));
-        }
-        isDrawing = !isDrawing;
     }
 
     @Override
@@ -76,6 +89,25 @@ public class Drawing extends JPanel implements MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        System.out.println("The user clicked " + e.getPoint());
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+
+        if (isDrawing){
+            this.currentFigure.setBoundingBox(mouseX, mouseY);
+            this.figures.add(this.currentFigure);
+            repaint();
+        }
+    }
+
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
 
     }
 }
