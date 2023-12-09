@@ -53,5 +53,9 @@ public class Ellipse extends Figure {
         Ellipse copy = new Ellipse(c, p.getX(),p.getY());
         return copy;
     }
+    public Figure createCopy() {
+        Ellipse copy = new Ellipse(this.getColor(), this.getOrigin().getX(),this.getOrigin().getY());
+        return copy;
+    }
 
 }

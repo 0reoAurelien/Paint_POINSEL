@@ -13,12 +13,12 @@ public class Square extends Rectangle {
     @Override
     public void setBoundingBox(int mouseX, int mouseY) {
         sortCoordinates();
-        // On impose une forme carrée en ne retenant que la longueur du côté
-        // Pour des tracés plus précis avec la souris, on choisit de garder le plus petit coté
-        int h = mouseX-this.getOrigin().getX();
-        int w = mouseY-this.getOrigin().getY();
-        //side = Math.min(h, w);
-        side = Math.max(Math.abs(h), Math.abs(w)); //Pour un meilleur visuel, on garde temporairement le maximum plutot que le minimum
+        // On impose une forme carrée en ne retenant que la longueur du côté de carré
+        // Pour des tracés plus précis avec la souris, on pourra choisir de garder le plus petit coté
+        int w = mouseX-this.getOrigin().getX();
+        int h = mouseY-this.getOrigin().getY();
+        //side = Math.min(Math.abs(h), Math.abs(w));
+        side = Math.max(Math.abs(h), Math.abs(w)); //Pour un meilleur visuel, choix temporaire du maximum plutot que du minimum
         this.height = (h>0)?side:-side;
         this.width = (w>0)?side:-side;
         sortCoordinates();
@@ -42,6 +42,10 @@ public class Square extends Rectangle {
     @Override
     public Figure createCopy(Color c, Point p) {
         Square copy = new Square(c, p.getX(),p.getY());
+        return copy;
+    }
+    public Figure createCopy() {
+        Square copy = new Square(this.getColor(), this.getOrigin().getX(),this.getOrigin().getY());
         return copy;
     }
 }

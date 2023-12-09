@@ -13,6 +13,7 @@ import java.util.List;
 public class Drawing extends JPanel implements MouseListener, MouseMotionListener {
     private Color currentColor;
     private Figure currentFigure;
+    private Figure preview;
     protected ArrayList<Figure> figures;
     protected static boolean isDrawing = false;
 
@@ -20,6 +21,7 @@ public class Drawing extends JPanel implements MouseListener, MouseMotionListene
         this.setBackground(Color.white);
         currentColor = Color.black;
         currentFigure = new Rectangle(Color.black, 0, 0); // Rectangle par défaut
+        preview = new Rectangle(Color.black, 0, 0); // Rectangle par défaut
         this.figures = new ArrayList<>();
     }
 
@@ -92,9 +94,13 @@ public class Drawing extends JPanel implements MouseListener, MouseMotionListene
 
     @Override
     protected void paintComponent(Graphics g) {
+
         super.paintComponent(g);
-        for (Figure figure : figures) {
-            figure.draw(g);
+        for (Figure fig : figures) {
+            fig.draw(g);
+        }
+        if (isDrawing) {
+            preview.draw(g);
         }
     }
 
@@ -116,24 +122,26 @@ public class Drawing extends JPanel implements MouseListener, MouseMotionListene
 
     @Override
     public void mousePressed(MouseEvent e) {
-        System.out.println("The user clicked " + e.getPoint());
+        //System.out.println("The user selected " + e.getPoint());
         int mouseX = e.getX();
         int mouseY = e.getY();
         if(!isDrawing) {
             this.currentFigure = this.currentFigure.createCopy(this.currentColor, new Point(mouseX, mouseY));
+            figures.add(this.currentFigure);
             isDrawing = true;
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        System.out.println("The user clicked " + e.getPoint());
+        //System.out.println("The user selected " + e.getPoint());
         int mouseX = e.getX();
         int mouseY = e.getY();
 
         if (isDrawing){
             this.currentFigure.setBoundingBox(mouseX, mouseY);
             this.figures.add(this.currentFigure);
+            preview = new Rectangle(Color.black, 0, 0);
             repaint();
             isDrawing = false;
         }
@@ -141,17 +149,17 @@ public class Drawing extends JPanel implements MouseListener, MouseMotionListene
 
     @Override
     public void mouseDragged(MouseEvent e) {
-/*
+
         int mouseX = e.getX();
         int mouseY = e.getY();
 
         if (isDrawing){
-            this.currentFigure.setBoundingBox(mouseX, mouseY);
-            this.figures.add(this.currentFigure);
+            this.preview = this.currentFigure.createCopy();
+            this.preview.setBoundingBox(mouseX, mouseY);
             repaint();
         }
 
- */
+
     }
 
 
@@ -165,15 +173,17 @@ public class Drawing extends JPanel implements MouseListener, MouseMotionListene
 
     @Override
     public void mouseMoved(MouseEvent e) {
-
+/*
         int mouseX = e.getX();
         int mouseY = e.getY();
 
         if (isDrawing){
-            this.currentFigure.setBoundingBox(mouseX, mouseY);
-            this.figures.add(this.currentFigure);
+            //this.currentFigure.setBoundingBox(mouseX, mouseY);
+            //this.figures.add(this.currentFigure);
             repaint();
+
         }
+        */
     }
 
 }

@@ -10,11 +10,12 @@ public class Window extends JFrame implements ActionListener {
     private Drawing drawingPanel;
 
 
-    public Window(String title, int x, int y) {
+    public Window(String title) {
         super(title);
-        this.setSize(900, 600);
         this.setMinimumSize(new Dimension(1200, 1000));  // Set the minimum size
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 
         // Configuration du contentPanel avec GridBagLayout
         Container contentPanel = getContentPane();
@@ -32,6 +33,7 @@ public class Window extends JFrame implements ActionListener {
         drawingPanel.setPreferredSize(new Dimension(900, 600));
         drawingPanel.setBackground(Color.WHITE);
         drawingPanel.addMouseListener(drawingPanel);
+        drawingPanel.addMouseMotionListener(drawingPanel);
 
         // Ajout du drawingPanel au contentPanel
         contentPanel.add(drawingPanel, gbc);
