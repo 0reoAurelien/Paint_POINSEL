@@ -45,8 +45,8 @@ public abstract class Figure implements Serializable {
 
     public abstract Figure createCopy(Color color, Point origin);
     public abstract Figure createCopy();
-    public abstract double getPerimeter();
-    public abstract double getSurface();
+
+    //public sendToFront();
 
 
 }

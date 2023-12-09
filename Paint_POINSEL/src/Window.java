@@ -5,6 +5,8 @@ import java.awt.event.*;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public class Window extends JFrame implements ActionListener {
     private Drawing drawingPanel;
@@ -150,6 +152,7 @@ public class Window extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Drawing.isDrawing = false;
         String cmd = e.getActionCommand();
+        int confirmation = 0;
 
         switch (cmd) {
             case "Rectangle":
@@ -238,20 +241,36 @@ public class Window extends JFrame implements ActionListener {
                 break;
 
             case "Open saved file":
-                try{
-                    drawingPanel.loadFromFile();
+                if (!(drawingPanel.isEmpty() || drawingPanel.isSaved())) {
+                    confirmation = JOptionPane.showConfirmDialog(this,
+                            "Opening the saved file will delete your current drawing.\nDo you want to load your saved file ?",
+                            "Loading file",
+                            JOptionPane.YES_NO_OPTION);
                 }
-                catch (Exception ew){
-                    JOptionPane.showMessageDialog(this,
-                            "You tried to load a saved file but an error occurred.",
-                            "Loading file error",
-                            JOptionPane.INFORMATION_MESSAGE);
-                    System.out.println("Problemos !");
+                if (confirmation==0) {
+                    try {
+                        drawingPanel.loadFromFile();
+                    }
+                    catch (Exception ew) {
+                        JOptionPane.showMessageDialog(this,
+                                "You tried to load a saved file but an error occurred.",
+                                "Loading file error",
+                                JOptionPane.INFORMATION_MESSAGE);
+                        System.out.println("Problemos !");
+                    }
                 }
                 break;
 
             case "Clear Screen":
-                drawingPanel.clearFile();
+                if (!(drawingPanel.isEmpty() || drawingPanel.isSaved())) {
+                    confirmation = JOptionPane.showConfirmDialog(this,
+                            "You should save your drawing first.\nAre you sure you want to clear your masterpiece ?",
+                            "Clear drawing",
+                            JOptionPane.YES_NO_OPTION);
+                }
+                if (confirmation==0) {
+                    drawingPanel.clearFile();
+                }
                 break;
 
             default:

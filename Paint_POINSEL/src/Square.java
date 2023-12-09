@@ -1,7 +1,8 @@
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Square extends Rectangle {
+public class Square extends Rectangle implements Serializable {
 
     private int side;
     public Square(Color color, int px, int py) {
@@ -28,16 +29,6 @@ public class Square extends Rectangle {
     public void draw(Graphics g) {
         g.setColor(getColor());
         g.fillRect(this.getOrigin().getX(), this.getOrigin().getY(), width, height);
-    }
-
-    @Override
-    public double getPerimeter() {
-        return 4*this.side;
-    }
-
-    @Override
-    public double getSurface() {
-        return this.side * this.side;
     }
     @Override
     public Figure createCopy(Color c, Point p) {

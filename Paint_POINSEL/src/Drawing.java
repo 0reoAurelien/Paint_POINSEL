@@ -14,15 +14,20 @@ public class Drawing extends JPanel implements MouseListener, MouseMotionListene
     private Color currentColor;
     private Figure currentFigure;
     private Figure preview;
-    protected ArrayList<Figure> figures;
+    protected static ArrayList<Figure> figures;
+    //protected static Figure[] figures;
     protected static boolean isDrawing = false;
+    private boolean isSaved;
+    private int selectedFigure;
 
     public Drawing() {
         this.setBackground(Color.white);
         currentColor = Color.black;
         currentFigure = new Rectangle(Color.black, 0, 0); // Rectangle par défaut
         preview = new Rectangle(Color.black, 0, 0); // Rectangle par défaut
-        this.figures = new ArrayList<>();
+        figures = new ArrayList<>();
+        isSaved = false;
+        selectedFigure = -1;
     }
 
     public void setCurrentColor(Color color) { //Action liée aux boutons de couleurs
@@ -49,22 +54,27 @@ public class Drawing extends JPanel implements MouseListener, MouseMotionListene
             // Création du fichier qui contiendra la sauvegarde
             FileOutputStream fos = new FileOutputStream("drawingFolder"+File.separator+"saveDrawing");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
+
             // Ecriture dans le fichier de la taille de la liste de figures
             oos.writeInt(figures.size());
+            System.out.println("\n\ncp 1\n\n");
             // Ecriture dans le fichier de la liste des figures
+
             for (Figure f : figures) {
                 oos.writeObject(f);
             }
             oos.close(); // fin d'écriture dans le fichier
+            isSaved = true;
         }
         catch (Exception e) {
-            throw new Exception(e); //renvoie une exception qui sera traitée dans la classe Window.java
+            //e.printStackTrace(); // Affiche la trace de la pile dans la console
+            throw new Exception(e); // Renvoie une exception qui sera traitée dans la classe Window.java
         }
     }
 
 
     public void loadFromFile() throws RuntimeException {
-        figures.clear(); // l'importantion écrase le dessin actuel
+        figures.clear(); // l'importation écrase le dessin actuel
 
         try {
 
@@ -77,18 +87,26 @@ public class Drawing extends JPanel implements MouseListener, MouseMotionListene
                 Figure fig = (Figure) ois.readObject();
                 figures.add(fig);
             }
-
-
+            repaint();
+            isSaved = true;
         }
         catch (Exception e) {
             throw new RuntimeException("Error loading from file", e);
         }
-        repaint();
     }
 
     public void clearFile() {
-        figures.clear(); // l'importantion écrase le dessin actuel
+        figures.clear();
         repaint();
+    }
+
+
+    boolean isEmpty() {
+        return (figures.isEmpty());
+    }
+
+    boolean isSaved() {
+        return isSaved;
     }
 
 
@@ -140,7 +158,8 @@ public class Drawing extends JPanel implements MouseListener, MouseMotionListene
 
         if (isDrawing){
             this.currentFigure.setBoundingBox(mouseX, mouseY);
-            this.figures.add(this.currentFigure);
+            figures.add(this.currentFigure);
+            isSaved = false;
             preview = new Rectangle(Color.black, 0, 0);
             repaint();
             isDrawing = false;

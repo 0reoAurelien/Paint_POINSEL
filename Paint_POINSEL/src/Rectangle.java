@@ -1,6 +1,7 @@
 import java.awt.*;
+import java.io.Serializable;
 
-public class Rectangle extends Figure {
+public class Rectangle extends Figure implements Serializable {
 
     public Rectangle(Color color, int px, int py) {
         super(color, new Point(px, py));
@@ -19,16 +20,6 @@ public class Rectangle extends Figure {
     public void draw(Graphics g) {
         g.setColor(getColor());
         g.fillRect(this.getOrigin().getX(), this.getOrigin().getY(), width, height);
-    }
-
-    @Override
-    public double getPerimeter() {
-        return 2*this.width + 2*this.height;
-    }
-
-    @Override
-    public double getSurface() {
-        return this.width * this.height;
     }
 
     @Override

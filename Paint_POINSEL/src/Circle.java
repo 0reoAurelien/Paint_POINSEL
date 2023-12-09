@@ -1,7 +1,8 @@
 import java.awt.*;
+import java.io.Serializable;
 
 
-public class Circle extends Ellipse {
+public class Circle extends Ellipse implements Serializable {
 
     int radius;
     public Circle(Color color, int px, int py) {
@@ -31,16 +32,6 @@ public class Circle extends Ellipse {
     public void draw(Graphics g) {
         g.setColor(getColor());
         g.fillOval(this.getOrigin().getX(), this.getOrigin().getY(), width, height);
-    }
-
-    @Override
-    public double getPerimeter() {
-        return 2 * Math.PI * radius;
-    }
-
-    @Override
-    public double getSurface() {
-        return Math.PI * radius * radius;
     }
 
     @Override
