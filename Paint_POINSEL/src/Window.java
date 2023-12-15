@@ -223,7 +223,7 @@ public class Window extends JFrame implements ActionListener {
 
             case "Save Project":
                 try{
-                    drawingPanel.saveToFile();
+                    drawingPanel.QuickSaveToFile();
                 }
                 catch (Exception ew){
                     JOptionPane.showMessageDialog(this,
@@ -235,7 +235,7 @@ public class Window extends JFrame implements ActionListener {
                 break;
             case "Export to PNG":
                 JOptionPane.showMessageDialog(this,
-                        "Come on, you didn't really wanna do this...\nPress Win+Shift+S to take a screenshot",
+                        "Come on...\nPress Win+Shift+S to take a screenshot",
                         "Export to PNG",
                         JOptionPane.INFORMATION_MESSAGE);
                 break;

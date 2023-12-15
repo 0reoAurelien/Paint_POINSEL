@@ -6,18 +6,19 @@ import java.io.*;
 import java.util.ArrayList;
 import java.awt.event.MouseEvent;
 
-// bibliothèques pour sauvegarder le fichier
-import java.util.ArrayList;
-import java.util.List;
 
 public class Drawing extends JPanel implements MouseListener, MouseMotionListener {
+    protected static int drawingMode;
+    // 1 -> selection mode
+    // 2 -> painting mode
+    // 3 -> shape mode
     private Color currentColor;
     private Figure currentFigure;
     private Figure preview;
     protected static ArrayList<Figure> figures;
     //protected static Figure[] figures;
     protected static boolean isDrawing = false;
-    private boolean isSaved;
+    private static boolean isSaved;
     private int selectedFigure;
 
     public Drawing() {
@@ -28,6 +29,7 @@ public class Drawing extends JPanel implements MouseListener, MouseMotionListene
         figures = new ArrayList<>();
         isSaved = false;
         selectedFigure = -1;
+        drawingMode = 1;
     }
 
     public void setCurrentColor(Color color) { //Action liée aux boutons de couleurs
@@ -42,28 +44,10 @@ public class Drawing extends JPanel implements MouseListener, MouseMotionListene
         currentFigure = figure;
     }
 
-    public void saveToFile() throws Exception {
+    public void QuickSaveToFile() throws Exception {
 
         try {
-            // Création d'un dossier de sauvegarde s'il n'existe pas encore
-            File folder = new File("drawingFolder");
-            if (!folder.exists()) {
-                folder.mkdirs();
-            }
-
-            // Création du fichier qui contiendra la sauvegarde
-            FileOutputStream fos = new FileOutputStream("drawingFolder"+File.separator+"saveDrawing");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-            // Ecriture dans le fichier de la taille de la liste de figures
-            oos.writeInt(figures.size());
-            System.out.println("\n\ncp 1\n\n");
-            // Ecriture dans le fichier de la liste des figures
-
-            for (Figure f : figures) {
-                oos.writeObject(f);
-            }
-            oos.close(); // fin d'écriture dans le fichier
+            FileManager.quickSaveToFile();
             isSaved = true;
         }
         catch (Exception e) {
@@ -77,21 +61,12 @@ public class Drawing extends JPanel implements MouseListener, MouseMotionListene
         figures.clear(); // l'importation écrase le dessin actuel
 
         try {
-
-            FileInputStream fis = new FileInputStream("drawingFolder"+File.separator+"saveDrawing");
-
-            ObjectInputStream ois = new ObjectInputStream(fis);
-
-            int size = ois.readInt();
-            for (int i = 0; i < size; i++) {
-                Figure fig = (Figure) ois.readObject();
-                figures.add(fig);
-            }
+            FileManager.loadFromFile();
             repaint();
             isSaved = true;
         }
         catch (Exception e) {
-            throw new RuntimeException("Error loading from file", e);
+            throw new RuntimeException("Error loading from file : no file selected", e);
         }
     }
 
